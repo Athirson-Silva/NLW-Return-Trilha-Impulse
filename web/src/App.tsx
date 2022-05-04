@@ -9,7 +9,7 @@ interface ButtonProps {
 function Button({text}: ButtonProps) {
   console.log(text)
 
-  return <button>text</button>
+  return <button className="bg-violet-500 p-2 h-8 rounded text-violet-100 hover:bg-violet-800">{text}</button>
 }
 
 
@@ -18,9 +18,10 @@ function App() {
   return (
     <div>
       <h1>Hello world!</h1>
-  
+      <div className="flex gap-2">
       <Button text="Enviar" />
       <Button text="Ok" />
+      </div>
     </div>
   )
 } //TSX
