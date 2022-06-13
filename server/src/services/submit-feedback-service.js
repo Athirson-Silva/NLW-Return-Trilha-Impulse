@@ -1,48 +1,35 @@
-import { MailAdapter } from "../../src/adapters/mail-adapter";
-import { FeedbacksRepository } from "../../src/repositories/feedbacksRepository";
-
-interface SubmitFeedbackServiceRequest {
-    type: string;
-    comment: string;
-    screenshot?: string;
-}
-
-export class SubmitFeedbackService {
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SubmitFeedbackService = void 0;
+class SubmitFeedbackService {
     // private feedbacksRepository: FeedbacksRepository
     // constructor(
     //     feedbacksRepository: FeedbacksRepository,
     // ) {
     //     this.feedbacksRepository = feedbacksRepository;
     // }
-
-
-    constructor(
-        private feedbacksRepository: FeedbacksRepository,
-        private mailAdapter: MailAdapter,
-    ) { }
-
-    async execute(request: SubmitFeedbackServiceRequest) {
+    constructor(feedbacksRepository, mailAdapter) {
+        this.feedbacksRepository = feedbacksRepository;
+        this.mailAdapter = mailAdapter;
+    }
+    async execute(request) {
         const { type, comment, screenshot } = request;
-
         if (!type) {
-            throw new ErrorEvent('Type is required')
-        };
-
+            throw new ErrorEvent('Type is required');
+        }
+        ;
         if (!comment) {
-            throw new ErrorEvent('Comment is required')
-        };
-
+            throw new ErrorEvent('Comment is required');
+        }
+        ;
         if (screenshot && !screenshot.startsWith('data:image/png;base64')) {
             throw new Error('Invalid screenshot format');
         }
-
         await this.feedbacksRepository.create({
             type,
             comment,
             screenshot,
-        })
-
+        });
         await this.mailAdapter.sendMail({
             subject: "Novo email",
             body: [
@@ -52,6 +39,7 @@ export class SubmitFeedbackService {
                 screenshot ? `<img src="${screenshot}` : null,
                 `</div>`
             ].join('\n')
-        })
+        });
     }
-} 
+}
+exports.SubmitFeedbackService = SubmitFeedbackService;
