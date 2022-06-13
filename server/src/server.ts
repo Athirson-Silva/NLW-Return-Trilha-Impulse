@@ -13,6 +13,6 @@ app.use(routes);
 //PUT - Atualizar um grupo de informações de uma entidade
 //PATCH - Atualizar uma única informação de uma entidade
 
-app.listen(3333, () => {
+app.listen(process.env.PORT || 3333, () => {
     console.log('HTTP server running!');
 });
